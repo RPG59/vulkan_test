@@ -1,7 +1,9 @@
 #define GLFW_INCLUDE_VULKAN
 
 #include <iostream>
+#ifdef __WIN32
 #include <Windows.h>
+#endif
 #include <vector>
 #include <cstring>
 
@@ -59,9 +61,11 @@ int main()
 	std::vector<VkExtensionProperties> extensions(extensionCount);
 	vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
 
+#ifdef __WIN32
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, 10);
 	std::cout << extensionCount << "extensions support" << std::endl;
+#endif
 
 	for (const auto& extension : extensions) {
 		std::cout << "\t" << extension.extensionName << std::endl;
@@ -75,7 +79,6 @@ int main()
 	glfwDestroyWindow(window);
 	glfwTerminate();
 
-	std::cout << "HW\n";
 
 	return EXIT_SUCCESS;
 
